@@ -33,13 +33,13 @@ When you run this ruby script, you can visit the URL on the `/` root page, and s
 
 ### Example return values
 
-- http://localhost:9393/library;category=biology/book;author=Bond;hardcover=yes
+http://localhost:9393/library;category=biology/book;author=Bond;hardcover=yes
 
     params['library']['category']='biology'
     params['book']['author']='Bond'
     params['book']['hardcover']='yes'
 
-- http://localhost:9393/library;category=biology/book?id=123
+http://localhost:9393/library;category=biology/book?id=123
 
     params['library']['category']='biology'
     params['id']=123
