@@ -1,21 +1,35 @@
-# Rack::MatrixParams
+Rack::MatrixParams
+==================
 
 Just simple Rack middleware to enable 'matrix' params
 
-## FEATURES:
+FEATURES:
+---------
 
-- Allow you to use URL's like 
+- Allow you to use Matrix URLs:
   - http://localhost:9393/library;category=biology/book;author=Bond;hardcover=yes
   - http://localhost:9393/library/book;author=Bond;hardcover=yes
   - http://localhost:9393/library;category=biology/book?id=123
 
-## EXAMPLES:
+EXAMPLES:
+---------
 
 ### Example Sinatra server
 
-    gem install sinatra
-    ruby example_server.rb
-    (browse http://localhost:4567/
+    require 'sinatra'
+    require 'rack/matrix_params'
+
+    use Rack::MatrixParams
+
+    get '/' do
+      "Visit <a href=\"/library;category=biology/book;author=Bond;hardcover=yes\">/library;category=biology/book;author=Bond;hardcover=yes</a>"
+    end
+
+    get '/library/book' do
+      params.inspect
+    end
+
+When you run this ruby script, you can visit the URL on the `/` root page, and see how sinatra's `params` variable is populated with the information in the matrix parameters.
 
 ### Example return values
 
@@ -31,8 +45,6 @@ Just simple Rack middleware to enable 'matrix' params
     params['id']=123
 
 ## LICENSE
-
-Copyright (C) 2011 Red Hat, Inc.
 
 Licensed to the Apache Software Foundation (ASF) under one or more
 contributor license agreements.  See the NOTICE file distributed with

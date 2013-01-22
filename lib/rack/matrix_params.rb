@@ -47,37 +47,40 @@ module Rack
       uri_components = env['REQUEST_URI'].split('/')
       matrix_params = {}
       uri_components.each do |component|
-	sub_components, value = component.split(/\;(\w+)\=/), nil
-	next unless sub_components.first  # Skip subcomponent if it's empty (usually /)
-	while param=sub_components.pop do
-	  if value
-	    matrix_params[sub_components.first] ||= {}
-	    matrix_params[sub_components.first].merge!(
-	      param => value
-	    )
-	    value=nil
-	    next
-	  else
-	    value = param
-	  end
-	end
+       sub_components, value = component.split(/\;(\w+)\=/), nil
+      next unless sub_components.first  # Skip subcomponent if it's empty (usually /)
+      while param=sub_components.pop do
+        if value
+          matrix_params[sub_components.first] ||= {}
+          matrix_params[sub_components.first].merge!(
+            param => value
+          )
+          value=nil
+          next
+        else
+          value = param
+        end
       end
+    end
 
       # If request method is POST, simply include matrix params in form_hash
       env['rack.request.form_hash'].merge!(matrix_params) if env['rack.request.form_hash']
 
       # For other methods it's a way complicated ;-)
       if env['REQUEST_METHOD']!='POST' and not matrix_params.keys.empty?
-	# Rewrite current path and query string and strip all matrix params from it
-	env['REQUEST_PATH'], env['PATH_INFO'] = env['REQUEST_URI'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
-	env['PATH_INFO'] = env['REQUEST_PATH']
-	env['QUERY_STRING'].gsub!(/;([^\/]*)/, '')
-	new_params = matrix_params.collect do |component, params|
-	  params.collect { |k,v| "#{component}[#{k}]=#{CGI::escape(v.to_s)}" }
-	end.flatten
-	# Add matrix params as a regular GET params
-	env['QUERY_STRING'] += '&' if not env['QUERY_STRING'].empty?
-	env['QUERY_STRING'] += "#{new_params.join('&')}"
+
+        # Rewrite current path and query string and strip all matrix params from it
+        env['REQUEST_PATH'], env['PATH_INFO'] = env['REQUEST_URI'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
+        env['PATH_INFO'] = env['REQUEST_PATH']
+        env['QUERY_STRING'] = env['QUERY_STRING'].gsub(/;([^\/]*)/, '').freeze
+        
+        new_params = matrix_params.collect do |component, params|
+          params.collect { |k,v| "#{component}[#{k}]=#{CGI::escape(v.to_s)}" }
+        end.flatten
+
+      	# Add matrix params as a regular GET params
+      	env['QUERY_STRING'] += '&' if not env['QUERY_STRING'].empty?
+      	env['QUERY_STRING'] += "#{new_params.join('&')}"
       end
       @app.call(env)
     end
