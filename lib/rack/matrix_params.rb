@@ -48,26 +48,24 @@ module Rack
       matrix_params = {}
       uri_components.each do |component|
        sub_components, value = component.split(/\;(\w+)\=/), nil
-      next unless sub_components.first  # Skip subcomponent if it's empty (usually /)
-      while param=sub_components.pop do
-        if value
-          matrix_params[sub_components.first] ||= {}
-          matrix_params[sub_components.first].merge!(
-            param => value
-          )
-          value=nil
-          next
-        else
-          value = param
+        next unless sub_components.first  # Skip subcomponent if it's empty (usually /)
+        while param = sub_components.pop do
+          if value
+            matrix_params[sub_components.first] ||= {}
+            matrix_params[sub_components.first].merge!( param => value )
+            value = nil
+            next
+          else
+            value = param
+          end
         end
       end
-    end
 
       # If request method is POST, simply include matrix params in form_hash
       env['rack.request.form_hash'].merge!(matrix_params) if env['rack.request.form_hash']
 
       # For other methods it's a way complicated ;-)
-      if env['REQUEST_METHOD']!='POST' and not matrix_params.keys.empty?
+      if env['REQUEST_METHOD'] != 'POST' and not matrix_params.keys.empty?
 
         # Rewrite current path and query string and strip all matrix params from it
         env['REQUEST_PATH'], env['PATH_INFO'] = env['REQUEST_URI'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
@@ -85,5 +83,4 @@ module Rack
       @app.call(env)
     end
   end
-
 end

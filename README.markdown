@@ -5,16 +5,16 @@ Just simple Rack middleware to enable 'matrix' params.
 
 *Originally developed by [Michal Fojtik](https://github.com/mifo/rack-matrix-params).*
 
-FEATURES:
----------
+Features
+--------
 
 - Allow you to use Matrix URLs:
   - http://localhost:9393/library;category=biology/book;author=Bond;hardcover=yes
   - http://localhost:9393/library/book;author=Bond;hardcover=yes
   - http://localhost:9393/library;category=biology/book?id=123
 
-EXAMPLES:
----------
+Examples
+--------
 
 ### Example Sinatra server
 
@@ -24,7 +24,7 @@ EXAMPLES:
     use Rack::MatrixParams
 
     get '/' do
-      "Visit <a href=\"/library;category=biology/book;author=Bond;hardcover=yes\">/library;category=biology/book;author=Bond;hardcover=yes</a>"
+      "Visit <a href=\"/library;category=biology/book;author=Bond;hardcover=yes\">a matrix URL</a>."
     end
 
     get '/library/book' do
@@ -46,7 +46,14 @@ http://localhost:9393/library;category=biology/book?id=123
     params['library']['category']='biology'
     params['id']=123
 
-## LICENSE
+To Do
+-----
+
+* Read up on Matrix URLs in detail and figure out if more functionality could be introduced
+* Write Tests!
+
+LICENSE
+-------
 
 Licensed to the Apache Software Foundation (ASF) under one or more
 contributor license agreements.  See the NOTICE file distributed with
