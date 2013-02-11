@@ -12,6 +12,7 @@ describe Rack::MatrixParams do
 	it 'should not change a normal GET query' do
 		get "/?key=value"
 
+		last_request.env['PATH_INFO'].should == "/"
 		last_request.env['REQUEST_METHOD'].should == "GET"
 		last_request.env['QUERY_STRING'].should == "key=value"
 		last_response.should be_ok
@@ -20,6 +21,7 @@ describe Rack::MatrixParams do
 	it 'should not change a normal POST query' do
 		post "/",{'key' => "value"}
 
+		last_request.env['PATH_INFO'].should == "/"
 		last_request.env['REQUEST_METHOD'].should == "POST"
 		last_request.env['rack.input'].read.should == "key=value"
 		last_response.should be_ok

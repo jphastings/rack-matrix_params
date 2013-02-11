@@ -40,11 +40,8 @@ module Rack
     # regular <form> parameters.
     
     def call(env)
-      # Copy PATH_INFO to REQUEST_URI if Rack::Test
-      env['REQUEST_URI'] = env['PATH_INFO'] if env['rack.test']
-
       # Split URI to components and then extract ;var=value pairs
-      uri_components = env['REQUEST_URI'].split('/')
+      uri_components = env['PATH_INFO'].split('/')
       matrix_params = {}
       uri_components.each do |component|
        sub_components, value = component.split(/\;(\w+)\=/), nil
@@ -68,7 +65,7 @@ module Rack
       if env['REQUEST_METHOD'] != 'POST' and not matrix_params.keys.empty?
 
         # Rewrite current path and query string and strip all matrix params from it
-        env['REQUEST_PATH'], env['PATH_INFO'] = env['REQUEST_URI'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
+        env['REQUEST_PATH'], env['PATH_INFO'] = env['PATH_INFO'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
         env['PATH_INFO'] = env['REQUEST_PATH']
         env['QUERY_STRING'] = env['QUERY_STRING'].gsub(/;([^\/]*)/, '').freeze
         

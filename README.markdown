@@ -49,8 +49,8 @@ http://localhost:9393/library;category=biology/book?id=123
 To Do
 -----
 
-* Read up on Matrix URLs in detail and figure out if more functionality could be introduced
-* Write Tests!
+* Write more tests!
+* Investigate which environment variables are changed, so that hopefully the Rack Log (eg. in Sinatra) doesn't have the hacked query string visible.
 
 LICENSE
 -------

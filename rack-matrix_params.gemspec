@@ -1,11 +1,10 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'rack/matrix_params/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "rack-matrix_params"
-  gem.version       = Rack::MatrixParams::VERSION
+  gem.version       = open('./VERSION').read
   gem.authors       = ["JP Hastings-Spital","Michal Fojtik"]
   gem.email         = ["jphastings@gmail.com"]
   gem.description   = %q{Rack middleware that populates the params variable with the contents of matrix parameters in a URL}
