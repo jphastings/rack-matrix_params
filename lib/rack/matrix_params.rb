@@ -66,7 +66,7 @@ module Rack
 
         # Rewrite current path and query string and strip all matrix params from it
         env['REQUEST_PATH'], env['PATH_INFO'] = env['PATH_INFO'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
-        env['PATH_INFO'] = env['REQUEST_PATH']
+        env['PATH_INFO'] ||= env['REQUEST_PATH']
         env['QUERY_STRING'] = env['QUERY_STRING'].gsub(/;([^\/]*)/, '').freeze
         
         new_params = matrix_params.collect do |component, params|
