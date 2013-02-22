@@ -44,15 +44,17 @@ module Rack
       uri_components = env['PATH_INFO'].split('/')
       matrix_params = {}
       uri_components.each do |component|
-       sub_components, value = component.split(/\;(\w+)\=/), nil
+       sub_components, value = component.split(/\;([\w:]+)\=/), nil
         next unless sub_components.first  # Skip subcomponent if it's empty (usually /)
         while param = sub_components.pop do
           if value
-            matrix_params[sub_components.first] ||= {}
-            matrix_params[sub_components.first].merge!( param => value )
+            # There are matrix components to this path element
+            (matrix_params[sub_components.first] ||= {}).merge!( param => value )
+
             value = nil
             next
           else
+            # There are no matrix components to this path element
             value = param
           end
         end
@@ -73,7 +75,9 @@ module Rack
         env['QUERY_STRING'].gsub!(/;([^\/]*)/, '').freeze
         
         new_params = matrix_params.collect do |component, params|
-          params.collect { |k,v| "#{component}[#{k}]=#{CGI::escape(v.to_s)}" }
+          params.collect do |k,v|
+            "#{component}[#{k}]=#{CGI::escape(v.to_s)}"
+          end
         end.flatten
 
       	# Add matrix params as a regular GET params

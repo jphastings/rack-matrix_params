@@ -49,4 +49,10 @@ describe Rack::MatrixParams do
 		last_request.env['QUERY_STRING'].should_not == "info[key]=value&queryparams"
 		last_response.should be_ok
 	end
+
+	it 'should provide access to the matrix parameters via the params variable' do
+		get '/path/info;key=value/more?queryparams'
+
+		last_request.params.should == {'queryparams'=>nil, 'info'=>{'key'=>'value'}}
+	end
 end
