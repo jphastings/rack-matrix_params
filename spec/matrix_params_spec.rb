@@ -55,4 +55,10 @@ describe Rack::MatrixParams do
 
 		last_request.params.should == {'queryparams'=>nil, 'info'=>{'key'=>'value'}}
 	end
+
+	it 'should work in the blinkbox books format' do
+		get '/client;img:w=200/server;v=0/test/9780111222333.sample.epub/OEBPS/chapter_001.html'
+
+		last_request.params.should == {'client'=>{'img:w' => '200'}, 'server'=>{'v'=>'0'}}
+	end
 end
