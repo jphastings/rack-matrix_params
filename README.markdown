@@ -1,7 +1,7 @@
 Rack::MatrixParams
 ==================
 
-[![Build Status](https://travis-ci.org/jphastings/[rack-matrix_params].png)](https://travis-ci.org/jphastings/[rack-matrix_params])
+[![Build Status](https://travis-ci.org/jphastings/rack-matrix_params.png)](https://travis-ci.org/jphastings/rack-matrix_params)
 
 
 Just simple Rack middleware to enable 'matrix' params.
