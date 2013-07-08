@@ -27,7 +27,7 @@ describe Rack::MatrixParams do
 		last_response.should be_ok
 	end
 
-	it 'should add variables to the params when a matrix URL is used on a GET request' do
+	it 'should add variables to the params when a matrix URL is used on a GET request, and alter the PATH_INFO to match' do
 		get "/path/info;key=value/more"
 
 		last_request.env['PATH_INFO'].should == "/path/info/more"
