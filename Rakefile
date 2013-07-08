@@ -2,7 +2,8 @@ require 'rake'
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 
-task :default => :test
+task :default => :build
+task :build => :test # Require a sucessful test to build
 task :test => :spec
 
 if !defined?(RSpec)

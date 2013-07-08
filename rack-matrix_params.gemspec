@@ -15,6 +15,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
+  gem.post_install_message = ":: Coded for blinkbox books :: Love books, love code? Get in touch ::"
+
   gem.add_dependency 'rack'
 
   gem.add_development_dependency 'rake'
