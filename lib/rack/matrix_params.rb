@@ -70,9 +70,9 @@ module Rack
       if env['REQUEST_METHOD'] != 'POST'
 
         # Rewrite current path and query string and strip all query params from it
-        env['PATH_INFO'].gsub!(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
+        env['PATH_INFO'] = env['PATH_INFO'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
 
-        env['QUERY_STRING'].gsub!(/;([^\/]*)/, '').freeze
+        env['QUERY_STRING'] = env['QUERY_STRING'].gsub(/;([^\/]*)/, '').freeze
         
         new_params = matrix_params.collect do |component, params|
           params.collect do |k,v|

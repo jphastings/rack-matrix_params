@@ -4,10 +4,10 @@ describe Rack::MatrixParams do
 	include Rack::Test::Methods
 
 	let(:inner_app) do
-        lambda { |env| [200, {'Content-Type' => 'text/plain'}, ['All good!'] ]}
-    end
- 
-    let(:app) { described_class.new(inner_app) }
+    lambda { |env| [200, {'Content-Type' => 'text/plain'}, ['All good!'] ]}
+  end
+
+  let(:app) { described_class.new(inner_app) }
 
 	it 'should not change a normal GET query' do
 		get "/?key=value"
