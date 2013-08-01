@@ -77,7 +77,7 @@ module Rack
         new_params = matrix_params.collect do |component, params|
           params.collect do |k,v|
             "#{component}[#{k}]=#{CGI::escape(v.to_s)}"
-          end
+          end.reverse
         end.flatten
 
       	# Add matrix params as a regular GET params

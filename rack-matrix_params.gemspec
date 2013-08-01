@@ -24,4 +24,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'bundler'
   gem.add_development_dependency 'rack-test'
   gem.add_development_dependency 'yarjuf'
+
+  gem.add_development_dependency 'cucumber'
 end
